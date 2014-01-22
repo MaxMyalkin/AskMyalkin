@@ -1,0 +1,46 @@
+<div class="modal fade hide in" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="changeModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h4 id="changeModalLabel">Форма изменения информации</h4>
+  </div>
+  <div class="modal-body">
+	<form class = "form-horizontal" id="changeForm" action="/change" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{ user.id }}" name="id">
+		<div class= "container-fluid">
+			<div class = "row-fluid">
+				<div class = "control-group">
+					<label class = " lead pull-left label" for = "username">Никнейм:</label>
+					<div class = "controls"><input class = "span12" type = "text" placeholder = "username" id = "username" name = "username" maxlength="30" value="{{ user.username }}"></div>
+				</div>
+			</div>
+			<div class = "row-fluid">
+				<div class = "control-group">
+					<label class = "lead pull-left label" for = "email">Email:</label>
+					<div class = "controls"><input class = "span12" type = "email" placeholder = "email" id = "email" maxlength="75" value="{{ user.email }}" name="email"></div>
+				</div>
+			</div>
+            <div class = "row-fluid">
+				<div class = "control-group">
+					<label class = "lead pull-left label" for = "firstname">Имя:</label>
+					<div class = "controls"><input class = "span12" type = "text" placeholder = "firstname" id = "first_name" maxlength="30" value="{{ user.first_name }}" name="first_name"></div>
+				</div>
+			</div>
+            <div class = "row-fluid">
+				<div class = "control-group">
+					<label class = "lead pull-left label" for = "lastname">Фамилия:</label>
+					<div class = "controls"><input class = "span12" type = "text" placeholder = "lastname" id = "last_name" maxlength="30" value="{{ user.last_name }}" name="last_name"></div>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class = "span3">
+					<button class="btn btn-inverse" type="submit">Изменить!</button>
+				</div>
+				<div class = " span2 pull-right">
+					 <button class=" btn pull-right btn-danger" data-dismiss="modal" aria-hidden="true">Отмена</button>
+				</div>
+			</div>
+		</div>
+	</form>
+  </div>
+</div>

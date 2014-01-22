@@ -1,0 +1,8 @@
+import sys
+#from django.core.managment import setup_environ
+#setup_environ(settings)
+from ask.models import Question
+from ask.models import Answer
+q = Question.objects.all().orderby('rating')[0:50]
+for x in q:
+    print(x)

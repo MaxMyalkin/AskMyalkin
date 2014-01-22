@@ -1,0 +1,18 @@
+<div class="well toRate" data-id = '{{ question.id }}' data-model = 'question'>
+    <div class="row-fluid">
+        <div class="span2 well" style="background-color: #faf2cc; text-align:center">
+            {% if user.is_authenticated and question.author != user %}<a class="rating-btn" data-type = 'up' href="#"><i class="icon-chevron-up"></i></a>{% endif %}
+            <h3 class = 'rating-value'>{{ question.rating }}</h3>
+            {% if user.is_authenticated and question.author != user %} <a class="rating-btn" data-type = 'down' href="#"><i class="icon-chevron-down"></i></a>{% endif %}
+        </div>
+        <div class="span10">
+            <p class="pull-right"> <i class="icon-eye-open"></i> {{ question.counter }} </p>
+            <p style="overflow: auto" class="lead">{{ question.title }}</p>
+            <p style="overflow: auto"> {{ question.body }}</p>
+            <p> <i class="icon-user"></i> Автор : <a href="user?id={{ question.author.id }}">{{ question.author }}</a></p>
+            <p class="pull-right"><i class="icon-calendar"></i> Дата : {{ question.date }}</p>
+            <p> <i class="icon-tags"></i> Теги : {% for tag in question.tags.all %}<a href="search?query={{ tag.text }}&type=tags" class="badge "> {{ tag.text  }} </a> {% endfor %}</p>
+            <a href="question?id={{ question.id }}">Ответы({{ question.answer_set.count }})</a>
+        </div>
+    </div>
+</div>

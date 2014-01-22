@@ -1,0 +1,61 @@
+import sys
+import MySQLdb as mdb
+from time import gmtime, strftime
+import random
+from random import randrange
+import string
+ 
+ 
+def time_gen():
+    result = strftime('%Y-%m-%d %H:%M:%S', gmtime())
+    return result
+ 
+def insert_user(cursor, id):
+    password = 'password'+(format(id))
+    last_login = time_gen()
+    is_superuser = random.randint(0, 1)
+    username = 'username'+(format(id))
+    first_name = 'name'+(format(id))
+    last_name = 'surname'+(format(id))
+    email = username+'@mail.com'
+    is_staff = random.randint(0, 1)
+    is_active = random.randint(0, 1)
+    date_joined = time_gen()
+    cursor.execute('INSERT INTO auth_user VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                   (id, password, last_login, is_superuser, username, first_name, last_name, email,
+                    is_staff, is_active, date_joined))
+ 
+ 
+def insert_question(cursor, id):
+    title = 'title'+(format(id))
+    body = 'body'+(format(id))
+    author = randrange(1, 10000)
+    creation_date = time_gen()
+    rating = randrange(-100, 100)
+    cursor.execute("INSERT INTO ask_question VALUES (%s, %s, %s, %s, %s , %s)",
+                   (id, title, body, author, creation_date, rating))
+ 
+ 
+def insert_answer(cursor, id):
+    contents = 'answer'+(format(id))
+    question = randrange(1, 100000)
+    author = randrange(1, 10000)
+    date = time_gen()
+    correct = random.randint(0, 1)
+    rating = randrange(-100,100)
+    cursor.execute("INSERT INTO ask_answer VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                   (id, contents,  author,question,  date, correct, rating))
+ 
+con = mdb.connect('localhost', 'ask-user', '19251925', 'ask_db')
+ 
+with con:
+    cur = con.cursor()
+ 
+   # for x in xrange(1, 10001):
+    #     insert_user(cur, x)
+
+    for x in xrange(1, 100000):
+        insert_question(cur, x)
+
+    #for x in xrange(1, 1000010):
+    #    insert_answer(cur, x)

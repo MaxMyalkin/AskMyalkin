@@ -1,0 +1,29 @@
+
+<div class="navbar">
+    <div class="navbar-inner">
+         <a class="brand" href = "index">Be smart - Ask Myalkin</a>
+        <ul class="nav">
+            <li class="divider-vertical"></li>
+            {% if user.is_authenticated == 0 %} <li><a style="font-size: 12pt" href="#registrationModal" data-toggle="modal" class="navbar-text"><i class="icon-edit"></i> Регистрация</a></li>{% endif %}
+             {% if user.is_authenticated %} <li><a style="font-size: 12pt" href="user?id={{ user.id }}" class="navbar-text" ><i class="icon-user"></i> Профиль {{ user.username }}</a></li>
+             <li class="divider-vertical"></li>
+             <li>  <a style="font-size: 12pt" href="#myModal" class="navbar-text" data-toggle="modal"><i class="icon-font"></i> Спросить!</a> </li>
+             {% endif %}
+            <li class="divider-vertical"></li>
+            <li><a style="font-size: 12pt" href="graph" class="navbar-text"> График</a></li>
+        </ul>
+        {% if user.is_authenticated == 0 %}
+      <form class="form-inline pull-right navbar-form " action="/login" method="post">
+         {% csrf_token %}
+          <input type="text" class="input-medium" placeholder="Логин" name="username">
+          <input type="password" class="input-medium" placeholder="Пароль" name="password">
+          <button type="submit" class="btn btn-inverse">Войти</button>
+      </form>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <ul class="pull-right nav">
+            <li class="navbar-text navbar-link" style="font-size: 12pt"><a href="/logout" style = "margin-left:10px"><i class="icon-remove"></i> Выйти</a></li>
+        </ul>
+        {% endif %}
+   </div>
+</div>

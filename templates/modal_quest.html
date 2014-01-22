@@ -1,0 +1,42 @@
+
+<div class="modal fade hide in" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h4 id="myModalLabel">Задайте свой вопрос здесь</h4>
+  </div>
+  <div class="modal-body">
+	<form class = "form-horizontal" id="questForm" action="/ask" method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <input type="hidden" name="author" value="{{ user.id }}">
+		<div class= "container-fluid">
+			<div class = "row-fluid">
+				<div class = "control-group">
+					<label class = " lead pull-left label" for = "title">Заголовок</label>
+					<div class = "controls"><input class = "span12" type = "text" placeholder = "Введите заголовок" id = "title" name = "title" maxlength="100"></div>
+				</div>
+			</div>
+			<div class = "row-fluid control-group">
+					<label class = "lead pull-left label" for = "question">Вопрос</label>
+					<div class = "controls"><textarea class = "span12" style = "resize:none" rows="4" placeholder = "Введите вопрос" id = "body" name = "body" maxlength="1000"></textarea></div>
+			</div>
+            <div class = "row-fluid control-group">
+					<label class = "lead pull-left label" for = "tags">Теги</label>
+					<div class = "controls"><input class = "span12 tags" type = "text" placeholder = "Введите до 3х тегов" id = "tags" name = "tags" maxlength="50" data-provide="typeahead" data-items="3" data-source='[{% for tag in tags %} "{{ tag.text }}", {% endfor %}""]' ></div>
+			</div>
+            <div class = "row-fluid control-group">
+					<label class = "lead pull-left label" for = "file">Файл</label>
+					<div class = "controls"><input type="file" name="file" id="file"></div>
+			</div>
+			<div>
+				<div class = "span2 offset2">
+					<button class="btn btn-inverse" type="submit">Спросить!</button>
+				</div>
+				<div class = "pull-right">
+					 <button class=" btn pull-right btn-danger" data-dismiss="modal" aria-hidden="true">Отмена</button>
+				</div>
+			</div>
+		</div>
+	</form>
+  </div>
+</div>
+

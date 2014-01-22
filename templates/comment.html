@@ -1,0 +1,38 @@
+
+
+
+ <div class="accordion">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+           <i class="icon-comment"></i> Комментарии({{ question.commentquest_set.count }})
+          </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse">
+          <div class="accordion-inner">
+           {% if user.is_authenticated %}
+                <form class = "form-horizontal well" style="background-color: #faf2cc" method="post" action="/comment_q" id="formComment">
+                    {% csrf_token %}
+                    <input type="hidden" name="author" value="{{ user.id }}">
+                    <div class= "container-fluid">
+                        <div class = "row-fluid control-group">
+                            <input type="hidden"  name ="main" value="{{ question.id }}" >
+                                <label class = "lead pull-left control-label" for="comment">Комментарий</label>
+                                <div class = "controls"><textarea class = "span12" style = "resize:none" rows="3" placeholder = "Напишите комментарий здесь" id = "body" name = "body" maxlength="200"></textarea></div>
+                                 <button class="btn btn-inverse pull-right" style="margin-top: 5px" type="submit">Комментировать</button>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+          {% for comment in comments %}
+                <div class="well" style="background-color: #faf2cc">
+                    <div class="row-fluid">
+                            <p class="lead" style="font-size: 12pt">{{ comment.body }}</p>
+                            <p class="pull-right"> <a href="user?id={{ comment.author.id }}"><i class="icon-user"></i> {{ comment.author }}</a> | <i class="icon-calendar"></i> {{ comment.date }}</p>
+                    </div>
+                </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,58 @@
+ <div class="well toRate toCorrect {% if answer.correct %} alert-success {% endif %}" data-id = '{{ answer.id }}' data-model="answer">
+    <div class="row-fluid">
+        <div class="span2 well" style="background-color:#faf2cc; text-align:center">
+            {% if user.is_authenticated and answer.author != user %}<a class="rating-btn" data-type = 'up' href="#"><i class="icon-chevron-up"></i></a>{% endif %}
+            <h3 class="rating-value">{{ answer.rating }}</h3>
+            {% if user.is_authenticated and answer.author != user %}<a class="rating-btn" data-type = 'down' href="#"><i class="icon-chevron-down"></i></a>{% endif %}
+        </div>
+        <div class="span10">
+            <p style="overflow: auto" class="lead">{{ answer.body }}</p>
+            <p> <i class="icon-user"></i> Автор : <a href="user?id={{ answer.author.id }}">{{ answer.author }}</a></p>
+                {% if user.is_authenticated == 1 and user.id == question.author.id  %}
+                    {% if answer.correct %}
+                         <a class="btn correct-btn" href="#">Неправильный ответ</a>
+                    {% else %}
+                          <a class="btn correct-btn" href="#">Правильный ответ</a>
+                    {% endif %}
+                {% endif %}
+            <p class="pull-right"> <i class="icon-calendar"></i> Дата : {{ answer.date }}</p>
+          <br>
+        <div class="accordion" style="margin-top: 5px">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{{ answer.id }}_p">
+               <i class="icon-comment"></i> Комментарии({{ answer.commentans_set.count }})
+              </a>
+            </div>
+            <div id="{{ answer.id }}_p" class="accordion-body collapse">
+              <div class="accordion-inner">
+               {% if user.is_authenticated %}
+                    <form class = "form-horizontal well" style="background-color: #faf2cc" method="post" action="/comment_a">
+                        {% csrf_token %}
+                        <input type="hidden" name="author" value="{{ user.id }}">
+                        <input type="hidden" name="tab" value="date">
+                        <div class= "container-fluid">
+                            <div class = "row-fluid control-group">
+                                <input type="hidden"  name ="main" value="{{ answer.id }}" >
+                                    <label class = "lead pull-left control-labellabel" for="comment">Комментарий</label>
+                                    <div class = "controls"><textarea class = "span12" style = "resize:none" rows="3" placeholder = "Напишите комментарий здесь" id = "body" name = "body" maxlength="200"></textarea></div>
+                                     <button class="btn btn-inverse pull-right" style="margin-top: 5px" type="submit">Комментировать</button>
+                            </div>
+                        </div>
+                    </form>
+                {% endif %}
+              {% for comment in answer.commentans_set.all %}
+                    <div class="well" style="background-color: #faf2cc">
+                        <div class="row-fluid">
+                                <p class="lead" style="font-size: 12pt">{{ comment.body }}</p>
+                                <p class="pull-right"> <a href="user?id={{ comment.author.id }}"><i class="icon-user"></i> {{ comment.author }}</a> |<i class="icon-calendar"></i> {{ comment.date }}</p>
+                        </div>
+                    </div>
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+</div>

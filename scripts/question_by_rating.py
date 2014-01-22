@@ -1,0 +1,10 @@
+import sys
+import MySQLdb as mdb
+db = mdb.connect('localhost', 'ask-user', '19251925', 'ask_db',init_command='SET NAMES UTF8')
+cursor = db.cursor()
+cursor.execute('select id , title , date , rating from ask_question order by rating desc limit 50' )
+top = cursor.fetchall()
+print(' Top 50 question ')
+for x in top:
+    print ('id = {0} , title = {1} , date = {2} , rating = {3}'.format(x[0],x[1],x[2],x[3]))
+db.close()

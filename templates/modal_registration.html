@@ -1,0 +1,43 @@
+
+<div class="modal fade hide in" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h4 id="registrationModalLabel">Форма регистрации</h4>
+  </div>
+  <div class="modal-body">
+	<form class = "form-horizontal" id="formRegistration" action="/registration" method="post">
+        {% csrf_token %}
+		<div class= "container-fluid">
+			<div class = "row-fluid">
+				<div class = "control-group">
+					<label class = " lead pull-left label" for = "username">Никнейм:</label>
+					<div class = "controls"><input class = "span12" type = "text" placeholder = "Никнейм" id = "username" name = "username" maxlength="30"></div>
+				</div>
+			</div>
+			<div class = "row-fluid control-group">
+					<label class = "lead pull-left label" for = "password">Пароль:</label>
+					<div class = "controls"><input type="password" class = "span12" rows="4" placeholder = "Пароль" id = "password" name = "password" maxlength="128"></div>
+			</div>
+			<div class = "row-fluid">
+				<div class = "control-group">
+					<label class = "lead pull-left label" for = "email">Email:</label>
+					<div class = "controls"><input class = "span12" type = "email" placeholder = "email" id = "email" maxlength="75" name="email"></div>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class = "span4">
+					<button class="btn btn-inverse" type="submit">Зарегистрировать!</button>
+				</div>
+                <div class="span2">
+                    <label class="checkbox">
+                        <input type="checkbox" name="auto_login"> Автоматический вход
+                      </label>
+                    </div>
+				<div class = " span2 pull-right">
+					 <button class=" btn pull-right" data-dismiss="modal" aria-hidden="true">Отмена</button>
+				</div>
+			</div>
+		</div>
+	</form>
+  </div>
+</div>

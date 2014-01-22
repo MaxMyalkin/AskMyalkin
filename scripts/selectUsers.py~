@@ -1,0 +1,5 @@
+import MySQLdb
+
+db = MySQLdb.connect(host="localhost", user = "ask-user" , passwd = "19251925" , db="ask_db")
+cursor = db.cursor()
+cursor.execute('select * from auth_user')

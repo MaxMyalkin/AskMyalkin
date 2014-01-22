@@ -1,0 +1,9 @@
+import sys
+import MySQLdb as mdb
+db = mdb.connect('localhost', 'ask-user', '19251925', 'ask_db',init_command='SET NAMES UTF8')
+cursor = db.cursor()
+cursor.execute('select * from ask_question order by rating descending limit 50' )
+top = cursor.fetchall()
+for x in top:
+    print x
+db.close()

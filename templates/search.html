@@ -1,0 +1,44 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <h4>Результаты поиска:</h4>
+    {% if error != '' %}<div class=" alert span6 offset3 alert-error text-center" >{{ error }}</div>{% endif %}
+        {% if tab == 'questions' or tab == 'tags' %}
+              {% for question in s_result %}
+                {% include 'question_only.html' %}
+                {% endfor %}
+            {% endif %}
+              {% if tab == 'answers' %}
+                {% for answer in s_result %}
+                 {% include 'answer_only.html' %}
+                {% endfor %}
+            {% endif %}
+            {% if tab == 'users' %}
+                {% for u in s_result %}
+                <div class="well">
+                    <div class="row-fluid">
+                        <div class="span10">
+                            <a href="user?id={{ u.id}}" class="lead">{{ u.username }}</a>
+                            {% if u.first_name != '' %}<p>Имя: {{ u.first_name }}</p>{% endif %}
+                           {% if u.last_name != '' %}<p>Фамилия: {{ u.last_name }}</p>{% endif %}
+                            <p> Email : {{ u.email }}</p>
+                            <p> Дата регистрации : {{ u.date_joined }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            <div class="row-fluid">
+            {% if error == '' %}<div class="span12">
+                <ul class="pager">
+                {% if s_result.has_previous %}
+                    <li class="previous"><a href="?query={{ query }}&page={{ s_result.previous_page_number }}&type={{ tab }}">&larr; Назад</a></li>
+                {% endif %}
+                Страница {{s_result.number }} из {{ s_result.paginator.num_pages }}.
+                {% if s_result.has_next %}
+                    <li class="next"><a href="?query={{ query }}&page={{ s_result.next_page_number }}&type={{ tab }}">Вперед &rarr; </a></li>
+                {% endif %}
+                </ul>
+            </div>{% endif %}
+            </div>
+{% endblock %}

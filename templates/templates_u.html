@@ -1,0 +1,69 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div class="well">
+            <div class="row-fluid">
+                <div class="span12">
+                    <p class="pull-right"> <i class="icon-star"></i> {{ u.profile.rating }}</p>
+                    <p class="lead">{{ u.username }}</p>
+                    {% if u.first_name != '' %}<p>Имя: {{ u.first_name }}</p>{% endif %}
+                   {% if u.last_name != '' %}<p>Фамилия: {{ u.last_name }}</p>{% endif %}
+                    <p><i class="icon-envelope"></i> Email : {{ u.email }}</p>
+                    <p><i class="icon-calendar"></i> Дата регистрации : {{ u.date_joined }}</p>
+                    {%  if user.id == u.id and user.is_authenticated == 1  %}
+                         <a href="#changeModal" data-toggle="modal">Изменить информацию о себе</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    <div class="tabbable">
+          <ul class="nav nav-tabs">
+            <li class="{% if tab != 'questions' %}active{% endif %}"><a href="#tab1" data-toggle="tab">Ответы</a></li>
+            <li class="{% if tab == 'questions' %}active{% endif %}"><a href="#tab2" data-toggle="tab">Вопросы</a></li>
+          </ul>
+        <div class="tab-content">
+            <div class="tab-pane {% if tab != 'questions' %}active{% endif %}" id="tab1">
+        {% if errAns != '' %}<div class=" alert span6 offset3 alert-error text-center" >{{ errAns }}</div>{% endif %}
+        {% for answer in answers %}
+            {% include 'answer_only.html' %}
+        {% endfor %}
+            {% if errAns == '' %}
+                 <div class="row-fluid">
+                        <div class="span12">
+                            <ul class="pager">
+                            {% if answers.has_previous %}
+                                <li class="previous"><a href="?id={{ u.id }}&page_ans={{ answers.previous_page_number }}&page_quest={{ page_q }}&tab=answers">&larr; Назад</a></li>
+                            {% endif %}
+                            Страница {{answers.number }} из {{ answers.paginator.num_pages }}.
+                            {% if answers.has_next %}
+                                <li class="next"><a href="?id={{ u.id }}&page_ans={{ answers.next_page_number }}&page_quest={{ page_q }}&tab=answers">Вперед &rarr; </a></li>
+                            {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+            {% endif %}
+            </div>
+            <div class="tab-pane {% if tab == 'questions' %}active{% endif %}" id="tab2">
+            {% if errQuest != '' %}<div class=" alert span6 offset3 alert-error text-center" >{{ errQuest }}</div>{% endif %}
+                {% for question in rating_list %}
+                    {% include 'question_only.html' %}
+                {% endfor %}
+       {% if errQuest == '' %}
+        <div class="row-fluid">
+            <div class="span12">
+                <ul class="pager">
+                {% if rating_list.has_previous %}
+                    <li class="previous"><a href="?id={{ u.id }}&page_ans={{ page_a }}&page_quest={{ rating_list.previous_page_number }}&tab=questions">&larr; Назад</a></li>
+                {% endif %}
+                Страница {{rating_list.number }} из {{ rating_list.paginator.num_pages }}.
+                {% if rating_list.has_next %}
+                    <li class="next"><a href="?id={{ u.id }}&page_ans={{ page_a }}&page_quest={{ rating_list.next_page_number }}&tab=questions">Вперед &rarr; </a></li>
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

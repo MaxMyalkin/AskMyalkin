@@ -1,0 +1,31 @@
+<form class="well pull-left" method="get" action="/search">
+
+    <i class="icon-search"></i>
+    <input style="margin: 10px" type="text" class="search-query" placeholder="Search" name="query">
+    <button class="btn btn-inverse" type="submit">Go</button>
+    <label for="selector" class="label" >Искать: </label>
+    <select style="margin-top: 5px" id="selector" class="btn-medium" name="type">
+      <option value="questions">вопросы</option>
+      <option value="answers">ответы</option>
+    </select>
+</form>
+
+{% if user.is_authenticated == 0 %}
+    <div class=" text-center alert alert-danger span12">
+            Вы не вошли на сайт. Чтобы задать вопрос или ответить, авторизуйтесь/зарегистрируйтесь.
+    </div>
+{% endif %}
+
+ <div class="well span12">
+<p style="text-align: center; font-size: 15pt"><i class="icon-tags"></i>   Топ тегов:</p>
+    {% for tag in pop_tags %}
+      <a style="margin-left: 20px; font-size: 12pt" href="search?query={{ tag.text }}&type=tags"> {{ tag.text }} </a>
+    {% endfor %}
+    </div>
+
+<div class="well span12">
+<p style="text-align: center; font-size: 15pt"><i class="icon-user"></i>   Последние пользователи:</p>
+    {% for user in user_list %}
+      <p style="text-align: center" ><a href= "user?id={{ user.id }}" style="font-size: 12pt;">{{ user.username }}</a></p>
+    {% endfor %}
+    </div>

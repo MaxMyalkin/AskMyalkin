@@ -1,0 +1,16 @@
+ {% for answer in answers %}
+ {% include "answer_only.html" %}
+{% endfor %}
+<div class="row-fluid">
+        <div class="span12">
+            <ul class="pager">
+            {% if answers.has_previous %}
+                <li class="previous"><a href="?id={{ question.id }}&page={{ answers.previous_page_number }}">&larr; Назад</a></li>
+            {% endif %}
+            Страница {{answers.number }} из {{ answers.paginator.num_pages }}.
+            {% if answers.has_next %}
+                <li class="next"><a href="?id={{ question.id }}&page={{ answers.next_page_number }}">Вперед &rarr; </a></li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>

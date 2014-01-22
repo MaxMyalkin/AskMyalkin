@@ -1,0 +1,16 @@
+{% for question in rating_list %}
+{% include "question_only.html" %}
+{% endfor %}
+<div class="row-fluid">
+    <div class="span12">
+        <ul class="pager">
+        {% if rating_list.has_previous %}
+            <li class="previous"><a href="?page_popular={{ rating_list.previous_page_number }}&page_date={{ page_date }}&tab=popular">&larr; Назад</a></li>
+        {% endif %}
+        Страница {{rating_list.number }} из {{ rating_list.paginator.num_pages }}.
+        {% if rating_list.has_next %}
+            <li class="next"><a href="?page_popular={{ rating_list.next_page_number }}&page_date={{ page_date }}&tab=popular">Вперед &rarr; </a></li>
+        {% endif %}
+        </ul>
+    </div>
+</div>

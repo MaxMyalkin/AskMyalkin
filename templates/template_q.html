@@ -1,0 +1,48 @@
+
+{% extends "index.html" %}
+
+{% block content %}
+	<div>
+        <div class="well toRate" data-id ="{{ question.id }}" data-model="question">
+            <div class="row-fluid">
+                <div class=" well span2" style="background-color: #faf2cc; text-align:center">
+                    {% if user.is_authenticated and question.author != user %}<a class="rating-btn" data-type = 'up' href="#"><i class="icon-chevron-up"></i></a>{% endif %}
+                        <h3 class = 'rating-value'>{{ question.rating }}</h3>
+                    {% if user.is_authenticated and question.author != user %} <a class="rating-btn" data-type = 'down' href="#"><i class="icon-chevron-down"></i></a>{% endif %}
+                </div>
+                <div class="span10">
+                    <p class="pull-right"> <i class="icon-eye-open"></i> {{ question.counter }} </p>
+                    <p style="overflow: auto" class="lead">{{ question.title }}</p>
+                    <p style="overflow: auto">{{ question.body }}</p>
+                    <p> <i class="icon-user"></i> Автор :<a href="user?id={{ question.author.id }}">{{ question.author }}</a> </p>
+                    <p class="pull-right"> <i class="icon-calendar"></i> Дата : {{ question.date }}</p>
+                    {%  if question.file %}<a href="{{ question.file.url }}"> <i class="icon-file"></i> Прикрепленный файл</a>{% endif %}
+                    <br>
+                        <p> <i class="icon-tags"></i> Теги : {% for tag in question.tags.all %}<a href="search?query={{ tag.text }}&type=tags" class="badge "> {{ tag.text  }} </a>{% endfor %}</p>
+                    <br>
+                    {% include "comment.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% if user.is_authenticated %}
+    <form class = "form-horizontal well" method="post" action="/answer" id="answerForm">
+            {% csrf_token %}
+            <input type="hidden" name="author" value="{{ user.id }}">
+            <div class= "container-fluid">
+                <div class = "row-fluid control-group">
+                    <input type="hidden"  name ="question" value="{{ question.id }}" >
+                        <label class = "lead pull-left">Ответ</label>
+                        <div class = "controls"><textarea class = "span12" style = "resize:none" rows="4" placeholder = "Напишите ответ здесь" id = "body" name = "body" maxlength="1000"></textarea></div>
+                         <button class="btn btn-inverse pull-right" style="margin-top: 5px" type="submit">Ответить</button>
+                </div>
+            </div>
+        </form>
+{% endif %}
+<h3>Ответы:</h3>
+{% if error != '' %}<div class=" alert span6 offset3 alert-error text-center" >{{ error }}</div>{% endif %}
+{% if error == '' %}
+    {% include "answer.html" %}
+{% endif %}
+{% endblock %}

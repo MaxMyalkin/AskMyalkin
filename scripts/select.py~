@@ -1,0 +1,10 @@
+import sys
+import MySQLdb as mdb
+db = mdb.connect('localhost', 'ask-user', '19251925', 'ask_db',init_command='SET NAMES UTF8')
+cursor = db.cursor()
+#вывод вопросов отавтра с id = 1
+cursor.execute('select * from ask_answer inner join auth_user on auth_user.id = ask_answer.author_id where auth_user.id = 1' )
+user = cursor.fetchall()
+for x in user:
+    print x
+db.close()
